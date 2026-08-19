@@ -525,6 +525,7 @@ export default function DashboardMockup() {
               </div>
 
               <button
+                id="auto-apply-fix-btn"
                 onClick={handleFixApply}
                 disabled={fixApplied}
                 className={`w-full mt-2 flex items-center justify-center gap-1.5 font-mono text-[11px] font-bold py-2 rounded-lg transition-all duration-300 ${
