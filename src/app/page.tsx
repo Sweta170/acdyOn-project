@@ -90,7 +90,7 @@ export default function Home() {
               /SANDBOX
             </button>
             <a
-              href="https://github.com"
+              href="https://github.com/Sweta170/acdyOn-project"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-prose transition-colors flex items-center gap-0.5"
@@ -185,7 +185,7 @@ export default function Home() {
             <a href="#how-it-works" className="hover:text-prose transition-colors">HOW IT WORKS</a>
             <a href="#sandbox"       className="hover:text-prose transition-colors">SANDBOX</a>
             <a
-              href="https://github.com"
+              href="https://github.com/Sweta170/acdyOn-project"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-prose transition-colors"

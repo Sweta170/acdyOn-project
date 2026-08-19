@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Server,
   Database,
@@ -154,6 +154,8 @@ export default function DashboardMockup() {
   const [activeNodeId,        setActiveNodeId]        = useState<string | null>(null);
   const [activeLogIndex,      setActiveLogIndex]      = useState<number | null>(null);
   const [mobileTab,           setMobileTab]           = useState<"trace" | "logs" | "details">("trace");
+  const [fixApplied,          setFixApplied]          = useState(false);
+  const fixTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeIncident = incidents[activeIncidentIndex];
 
@@ -171,6 +173,13 @@ export default function DashboardMockup() {
   const handleReset = () => {
     setActiveNodeId(null);
     setActiveLogIndex(null);
+  };
+
+  const handleFixApply = () => {
+    if (fixApplied) return;
+    setFixApplied(true);
+    if (fixTimer.current) clearTimeout(fixTimer.current);
+    fixTimer.current = setTimeout(() => setFixApplied(false), 3000);
   };
 
   const getNodeIcon = (type: TraceNode["type"], status: TraceNode["status"]) => {
@@ -199,7 +208,22 @@ export default function DashboardMockup() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-16 overflow-x-hidden">
+    <div className="relative w-full max-w-7xl mx-auto px-4 md:px-8 py-16 overflow-x-hidden">
+
+      {/* ── Fix-applied toast ────────────────────────────────────────────── */}
+      <div
+        aria-live="polite"
+        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-400 ${
+          fixApplied
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 translate-y-3 pointer-events-none"
+        }`}
+      >
+        <div className="flex items-center gap-2.5 bg-sage-dim border border-sage-ring text-sage font-mono text-xs font-bold px-5 py-3 rounded-xl shadow-2xl">
+          <CheckCircle2 className="w-4 h-4 shrink-0" />
+          Fix applied — hotpatch deployed to staging
+        </div>
+      </div>
 
       {/* ── Section header ───────────────────────────────────────────── */}
       <div className="text-center mb-10">
@@ -317,9 +341,13 @@ export default function DashboardMockup() {
                 const isErr     = node.status === "error";
                 const isWarn    = node.status === "warning";
                 const isOk      = node.status === "success";
+                // When fix is applied, all non-skipped nodes briefly flash green
+                const fixOverride = fixApplied && !isSkipped;
 
                 const cardBase = "w-full flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200";
-                const cardStyle = isActive
+                const cardStyle = fixOverride
+                  ? `${cardBase} border-sage-ring bg-sage-dim shadow-[0_0_12px_rgba(78,139,104,0.25)]`
+                  : isActive
                   ? isErr   ? `${cardBase} border-signal-ring bg-signal-dim shadow-[0_0_12px_rgba(217,95,95,0.15)]`
                     : isWarn ? `${cardBase} border-amber-ring bg-amber-dim shadow-[0_0_12px_rgba(224,145,50,0.15)]`
                     : `${cardBase} border-amber-ring bg-amber-dim`
@@ -470,7 +498,7 @@ export default function DashboardMockup() {
                 <h5 className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2 flex items-center gap-1.5">
                   <span className="block w-2 h-px bg-accent" /> What happened
                 </h5>
-                <p className="text-xs text-slate-400 dark:text-slate-400 leading-relaxed font-sans">
+                <p className="text-xs text-muted leading-relaxed font-sans">
                   {activeIncident.explanation.details}
                 </p>
               </div>
@@ -479,7 +507,7 @@ export default function DashboardMockup() {
                 <h5 className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2 flex items-center gap-1.5">
                   <span className="block w-2 h-px bg-sage" /> Suggested fix
                 </h5>
-                <p className="text-xs text-slate-400 dark:text-slate-400 leading-relaxed font-sans">
+                <p className="text-xs text-muted leading-relaxed font-sans">
                   {activeIncident.explanation.fix}
                 </p>
               </div>
@@ -497,15 +525,19 @@ export default function DashboardMockup() {
               </div>
 
               <button
-                onClick={() =>
-                  alert(
-                    "Simulated: In production this would deploy an automated hotpatch script."
-                  )
-                }
-                className="w-full mt-2 flex items-center justify-center gap-1.5 bg-amber text-ink font-mono text-[11px] font-bold py-2 rounded-lg hover:bg-amber-light transition-colors"
+                onClick={handleFixApply}
+                disabled={fixApplied}
+                className={`w-full mt-2 flex items-center justify-center gap-1.5 font-mono text-[11px] font-bold py-2 rounded-lg transition-all duration-300 ${
+                  fixApplied
+                    ? "bg-sage text-ink cursor-default"
+                    : "bg-amber text-ink hover:bg-amber-light"
+                }`}
               >
-                <Sparkles className="w-3 h-3" />
-                AUTO-APPLY FIX OVERLAY
+                {fixApplied ? (
+                  <><CheckCircle2 className="w-3 h-3" /> FIX APPLIED</>
+                ) : (
+                  <><Sparkles className="w-3 h-3" /> AUTO-APPLY FIX OVERLAY</>
+                )}
               </button>
             </div>
           </div>
