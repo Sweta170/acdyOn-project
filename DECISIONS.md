@@ -18,16 +18,16 @@ The flex layout is immediately responsive and works without JavaScript coordinat
 
 ---
 
-## 3. Where AI was used
+## 3. Where AI tools were used
 
-**AI wrote the initial scaffolding for:**
-- The Tailwind v4 `@theme` token block in `globals.css` (custom colors, keyframe animation syntax)
-- The `incidents` data array in `DashboardMockup.tsx` — the three incident scenarios with log entries and node state objects
-- The conic-gradient CTA button structure (`group-hover`, opacity swap, inner mask pattern)
-- The `ThemeContext.tsx` structure including the `mounted` guard pattern
+**AI-scaffolded (initial structure generated, then reviewed and integrated):**
+- The Tailwind v4 `@theme` token block in `globals.css` — custom color names, HSL values, and keyframe animation syntax for the conic-gradient spin
+- The `incidents` data array in `DashboardMockup.tsx` — the three incident scenarios including log entry sequences, node state objects, and root-cause explanation copy
+- The conic-gradient CTA button structure — the `group-hover` opacity-swap pattern and the inner mask that punches out the button background to reveal only the border
+- The `ThemeContext.tsx` skeleton — the `useState` + `useEffect` shape and the `mounted` guard pattern to prevent hydration mismatch on SSR
 
-**I reviewed, tested, and modified:**
-- All copy in `Hero.tsx` and `page.tsx` — rewritten to remove any claims that read like real metrics. The feature blurbs, benchmark section labels, and body text were all reviewed for honesty.
-- The bidirectional log↔node click sync logic in `DashboardMockup.tsx` — AI produced the basic `activeNodeId` / `activeLogIndex` state, but the `handleReset()` behavior and the mobile tab state were added and debugged manually.
-- The mobile responsive layout — the dashboard titlebar overflow fix (`min-w-0`, `shrink-0`, `truncate`, responsive `hidden sm:inline` labels) was identified and written manually after inspecting the rendered output.
-- The sudo easter egg — prompt driven, but the `useRef` buffer pattern (`.slice(-4)` to avoid unbounded string growth) and the guard against firing inside `<input>` elements were my own additions.
+**Written, tested, or rewritten personally:**
+- All marketing copy in `Hero.tsx` and `page.tsx` — rewritten to remove any claims that read as real production metrics; the benchmark section labels were revised to read "Design Target Specifications" with an explicit disclaimer
+- The bidirectional log↔node click-sync logic in `DashboardMockup.tsx` — AI produced the basic `activeNodeId` / `activeLogIndex` state, but the `handleReset()` behaviour, the mobile tab toggle, and the guard that prevents the node panel from de-syncing on incident switch were added and debugged manually
+- The mobile responsive layout — the dashboard titlebar overflow fix (`min-w-0`, `shrink-0`, `truncate`, responsive `hidden sm:inline` labels on node-detail badges) was identified and written manually after inspecting the rendered output at 390 px
+- The sudo easter egg — the prompt was mine, but the `useRef` sliding-window buffer (`.slice(-4)` to avoid unbounded string growth) and the `instanceof HTMLInputElement` guard that prevents the trigger firing while the user types in a form field were my own additions

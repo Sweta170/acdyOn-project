@@ -64,7 +64,7 @@ src/
 See [DECISIONS.md](./DECISIONS.md) for a concise explanation of:
 - Why this visual direction over simpler alternatives
 - One trade-off made under time pressure
-- Where AI was used in the build
+- Where AI tools were used in the build
 
 ---
 
