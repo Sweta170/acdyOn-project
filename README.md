@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlowTrace — Backend Log Visualizer
 
-## Getting Started
+**FlowTrace** is a developer observability tool that intercepts raw backend stdout logs and translates them into interactive, real-time execution flow diagrams with automated root-cause explanations.
 
-First, run the development server:
+This repository is a **product landing page** built as a coding assessment demonstrating:
+- A premium SaaS front-end with a distinctive design system
+- A fully interactive "product in action" dashboard mockup (no screenshots — real HTML/CSS/React)
+- One polished micro-interaction (rotating conic-gradient CTA border on hover)
+- Full dark/light mode with localStorage persistence
+- Responsive layout tested at 390px, 768px, and 1440px
+
+---
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 (CSS-first `@theme` — no `tailwind.config.js`) |
+| Icons | Lucide React |
+| Fonts | Space Grotesk · Inter · JetBrains Mono (via `next/font/google`) |
+| Deploy | Vercel |
+
+---
+
+## Running Locally
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
+
+# 3. Production build (optional)
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Node.js 18+ required.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout — fonts, metadata, ThemeProvider
+│   ├── globals.css         # Tailwind v4 @theme tokens, animations, scrollbar
+│   └── page.tsx            # Full page — header, hero, sandbox, features, footer
+└── components/
+    ├── Hero.tsx             # Hero section with rotating-glow CTA micro-interaction
+    ├── DashboardMockup.tsx  # 3-panel interactive product dashboard
+    └── ThemeContext.tsx     # Dark/light mode context with localStorage persistence
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design Decisions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See [DECISIONS.md](./DECISIONS.md) for a concise explanation of:
+- Why this visual direction over simpler alternatives
+- One trade-off made under time pressure
+- Where AI was used in the build
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Live URL
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> **Deployed URL:** _TODO: add Vercel deployment URL after deploying_

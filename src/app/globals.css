@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
+/* ── Adaptive theme variables (switch on .dark class) ─────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F5F2EC;
+  --foreground: #0A0E17;
+  --t-surface: #ECEAE4;
+  --t-surface-2: #E4E0D8;
+  --t-wire: #D4D0C8;
+  --t-wire-2: #C2BDB4;
+  --t-muted: #71717A;
+  --t-faint: #A1A1AA;
+  --t-accent: #9A5E15;
+  --t-prose: #1A1A2E;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --background: #090D14;
+  --foreground: #EDE9E0;
+  --t-surface: #0F1520;
+  --t-surface-2: #141B28;
+  --t-wire: #1D2535;
+  --t-wire-2: #253045;
+  --t-muted: #94A3B8;
+  --t-faint: #4B5563;
+  --t-accent: #E09132;
+  --t-prose: #EDE9E0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Typography */
+  --font-display: var(--font-dm-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), "Courier New", Courier, monospace;
+
+  /* ── Adaptive tokens (read from :root / .dark vars) ─────────── */
+  --color-surface: var(--t-surface);
+  --color-surface-2: var(--t-surface-2);
+  --color-wire: var(--t-wire);
+  --color-wire-2: var(--t-wire-2);
+  --color-muted: var(--t-muted);
+  --color-faint: var(--t-faint);
+  --color-accent: var(--t-accent);
+  --color-prose: var(--t-prose);
+
+  /* ── Fixed colours (same in both modes) ─────────────────────── */
+  /* Canvas poles */
+  --color-ink: #090D14;
+  --color-paper: #F5F2EC;
+
+  /* Primary — Amber */
+  --color-amber: #E09132;
+  --color-amber-light: #F0A84E;
+  --color-amber-dim: rgba(224, 145, 50, 0.12);
+  --color-amber-ring: rgba(224, 145, 50, 0.35);
+
+  /* Success — Sage */
+  --color-sage: #4E8B68;
+  --color-sage-light: #5FA87C;
+  --color-sage-dim: rgba(78, 139, 104, 0.12);
+  --color-sage-ring: rgba(78, 139, 104, 0.35);
+
+  /* Error — Signal */
+  --color-signal: #D95F5F;
+  --color-signal-light: #E87878;
+  --color-signal-dim: rgba(217, 95, 95, 0.12);
+  --color-signal-ring: rgba(217, 95, 95, 0.35);
+
+  /* ── Animations ──────────────────────────────────────────────── */
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
   }
+
+  @keyframes log-slide-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0);   }
+  }
+
+  @keyframes step-reveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  @keyframes amber-ring {
+    0%, 100% { box-shadow: 0 0 0 0   rgba(224, 145, 50, 0);    }
+    50%       { box-shadow: 0 0 0 8px rgba(224, 145, 50, 0.10); }
+  }
+
+  @keyframes signal-ring {
+    0%, 100% { box-shadow: 0 0 0 0   rgba(217, 95, 95, 0);     }
+    50%       { box-shadow: 0 0 0 8px rgba(217, 95, 95, 0.15);  }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  --animate-cursor: cursor-blink 1s step-end infinite;
+  --animate-log-in: log-slide-in 0.35s ease-out forwards;
+  --animate-reveal: step-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-amber-ring: amber-ring 2.5s ease-in-out infinite;
+  --animate-signal-ring: signal-ring 2s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.4s ease-out forwards;
 }
+
+/* ── Base ────────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar           { width: 4px; height: 4px; }
+::-webkit-scrollbar-track     { background: transparent; }
+::-webkit-scrollbar-thumb     { background: var(--t-wire); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--t-wire-2); }
