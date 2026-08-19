@@ -70,4 +70,4 @@ See [DECISIONS.md](./DECISIONS.md) for a concise explanation of:
 
 ## Live URL
 
-> **Deployed URL:** _TODO: add Vercel deployment URL after deploying_
+> **Deployed URL:** https://flowtrace.vercel.app
